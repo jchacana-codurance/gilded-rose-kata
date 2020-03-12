@@ -8,6 +8,9 @@ class GildedRoseShould {
 
     public static final int NOT_RELEVANT_SELL_IN = 0;
     public static final int INITIAL_LEGENDARY_QUALITY = 80;
+    private static final int DEFAULT_QUALITY = 0;
+    private static final int DEFAULT_QUALITY_INCREASED_AFTER_A_DAY = 1;
+    private static final int DEFAULT_SELL_IN = 2;
     String goldenMaster = "OMGHAI!\n" +
             "-------- day 0 --------\n" +
             "name, sellIn, quality\n" +
@@ -116,6 +119,19 @@ class GildedRoseShould {
         app.updateQuality();
 
         assertEquals(NOT_RELEVANT_SELL_IN, items[0].sellIn);
+    }
+
+    @Test
+    void increase_quality_for_aged_brie_after_a_day() {
+        Item agedBrie = new Item("Aged Brie", DEFAULT_SELL_IN, DEFAULT_QUALITY);
+        Item[] items = new Item[]{
+                agedBrie
+        };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(DEFAULT_QUALITY_INCREASED_AFTER_A_DAY, agedBrie.quality);
     }
 
     private Item sulfuras() {
