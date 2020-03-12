@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GildedRoseShould {
 
+    public static final int NOT_RELEVANT_SELL_IN = 0;
+    public static final int INITIAL_LEGENDARY_QUALITY = 80;
     String goldenMaster = "OMGHAI!\n" +
             "-------- day 0 --------\n" +
             "name, sellIn, quality\n" +
@@ -63,4 +65,18 @@ class GildedRoseShould {
         assertEquals(goldenMaster, result);
 
     }
+
+    @Test
+    void never_modify_quality_for_sulfuras_after_one_day() {
+        Item[] items = new Item[] {
+                new Item("Sulfuras, Hand of Ragnaros", NOT_RELEVANT_SELL_IN, INITIAL_LEGENDARY_QUALITY)
+        };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(INITIAL_LEGENDARY_QUALITY, items[0].quality);
+    }
+
+    
 }
