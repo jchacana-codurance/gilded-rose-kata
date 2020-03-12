@@ -92,6 +92,32 @@ class GildedRoseShould {
         assertEquals(INITIAL_LEGENDARY_QUALITY, items[0].quality);
     }
 
+    @Test
+    void never_modify_sell_in_value_for_sulfuras_after_one_day() {
+        Item[] items = new Item[]{
+                sulfuras()
+        };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(NOT_RELEVANT_SELL_IN, items[0].sellIn);
+    }
+
+    @Test
+    void never_modify_sell_in_value_for_sulfuras_after_several_days() {
+        Item[] items = new Item[]{
+                sulfuras()
+        };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+        app.updateQuality();
+        app.updateQuality();
+
+        assertEquals(NOT_RELEVANT_SELL_IN, items[0].sellIn);
+    }
+
     private Item sulfuras() {
         return new Item("Sulfuras, Hand of Ragnaros", NOT_RELEVANT_SELL_IN, INITIAL_LEGENDARY_QUALITY);
     }
