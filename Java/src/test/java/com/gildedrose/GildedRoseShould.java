@@ -32,11 +32,12 @@ class GildedRoseShould {
             "Backstage passes to a TAFKAL80ETC concert, 9, 50\n" +
             "Backstage passes to a TAFKAL80ETC concert, 4, 50\n" +
             "Conjured Mana Cake, 2, 5\n\n";
+
     @Test
     void follow_golden_master_output() {
         String result = "OMGHAI!\n";
 
-        Item[] items = new Item[] {
+        Item[] items = new Item[]{
                 new Item("+5 Dexterity Vest", 10, 20), //
                 new Item("Aged Brie", 2, 0), //
                 new Item("Elixir of the Mongoose", 5, 7), //
@@ -46,19 +47,19 @@ class GildedRoseShould {
                 new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49),
                 new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49),
                 // this conjured item does not work properly yet
-                new Item("Conjured Mana Cake", 3, 6) };
+                new Item("Conjured Mana Cake", 3, 6)};
 
 
         GildedRose app = new GildedRose(items);
 
         int days = 2;
         for (int i = 0; i < days; i++) {
-            result+="-------- day " + i + " --------\n";
-            result+="name, sellIn, quality\n";
+            result += "-------- day " + i + " --------\n";
+            result += "name, sellIn, quality\n";
             for (Item item : items) {
-                result+=item + "\n";
+                result += item + "\n";
             }
-            result+="\n";
+            result += "\n";
             app.updateQuality();
         }
 
@@ -68,8 +69,8 @@ class GildedRoseShould {
 
     @Test
     void never_modify_quality_for_sulfuras_after_one_day() {
-        Item[] items = new Item[] {
-                new Item("Sulfuras, Hand of Ragnaros", NOT_RELEVANT_SELL_IN, INITIAL_LEGENDARY_QUALITY)
+        Item[] items = new Item[]{
+                sulfuras()
         };
         GildedRose app = new GildedRose(items);
 
@@ -78,5 +79,20 @@ class GildedRoseShould {
         assertEquals(INITIAL_LEGENDARY_QUALITY, items[0].quality);
     }
 
-    
+    @Test
+    void never_modify_quality_for_sulfuras_after_several_days() {
+        Item[] items = new Item[]{
+                sulfuras()
+        };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+        app.updateQuality();
+
+        assertEquals(INITIAL_LEGENDARY_QUALITY, items[0].quality);
+    }
+
+    private Item sulfuras() {
+        return new Item("Sulfuras, Hand of Ragnaros", NOT_RELEVANT_SELL_IN, INITIAL_LEGENDARY_QUALITY);
+    }
 }
